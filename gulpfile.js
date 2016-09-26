@@ -56,4 +56,22 @@
       callback();
     });
   });
+
+  gulp.task('express', function (callback) {
+    var app2 = express();
+    var server2 = http.createServer(app2);
+    var proxyMiddleware = proxy({
+      ws: true,
+      prependPath: false,
+      target: 'http://localhost:' + port,
+      changeOrigin: true,
+      logLevel: 'debug'
+    });
+    app2.use('/', proxyMiddleware);
+    server2.listen(port + 1, function () {
+      console.log('Example server2 listening on port', port + 1);
+      callback();
+    });
+  });
+
 })();
